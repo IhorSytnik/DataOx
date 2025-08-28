@@ -9,5 +9,4 @@ public class DataOxApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DataOxApplication.class, args);
 	}
-
 }
