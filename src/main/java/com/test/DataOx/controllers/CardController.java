@@ -1,41 +1,35 @@
 package com.test.DataOx.controllers;
 
 import com.test.DataOx.model.Card;
+import com.test.DataOx.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.command.annotation.Command;
-import org.springframework.shell.command.annotation.Option;
-import org.springframework.shell.component.StringInput;
 import org.springframework.shell.component.flow.ComponentFlow;
 import org.springframework.shell.standard.AbstractShellComponent;
 
 @Command(group = "Card commands", command = "card")
-public class CardControllerImpl extends AbstractShellComponent {
+public class CardController extends AbstractShellComponent {
 
+    @Autowired
+    private CardService cardService;
     @Autowired
     private ComponentFlow.Builder componentFlowBuilder;
 
-    @Command(command = "create")
+    @Command(command = "create", description = "Create a card for a specific deck.")
     public void create(String deckName, String question, String answer) {
-        flowTest();
+        cardService.create(deckName, question, answer);
     }
 
-    public Iterable<Card> list() {
-        return null;
+    @Command(command = "list", description = "List all cards in a specific deck.")
+    public Iterable<Card> list(String deckName) {
+        return cardService.listByDeckName(deckName);
     }
 
-    public void edit(String name, String newName) {
-
+    public void edit(Long id, String newQuestion, String newAnswer) {
+        cardService.edit(id, newQuestion, newAnswer);
     }
 
-    public void delete(String name) {
-
-    }
-
-    public String flowTest() {
-        StringInput component = new StringInput(getTerminal(), "Enter value", "myvalue");
-        component.setResourceLoader(getResourceLoader());
-        component.setTemplateExecutor(getTemplateExecutor());
-        StringInput.StringInputContext context = component.run(StringInput.StringInputContext.empty());
-        return "Got value " + context.getResultValue();
+    public void delete(String id) {
+        cardService.delete(Long.valueOf(id));
     }
 }

@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.command.annotation.Command;
 
 @Command(group = "Deck commands", command = "deck")
-public class DeckControllerImpl {
+public class DeckController {
     @Autowired
     private DeckService deckService;
+    @Autowired
+    private Flow flow;
 
     @Command(command = "create", description = "Create a new deck with a given name.")
     public void create(String name) {
@@ -28,5 +30,15 @@ public class DeckControllerImpl {
     @Command(command = "delete", description = "Delete a specific deck.")
     public void delete(String name) {
         deckService.delete(name);
+    }
+
+    @Command(description = "Card management menu for a specific deck.")
+    public Object deck(String name) {
+        return flow.cardManagementFlow(name);
+    }
+
+    @Command(command = "quiz", description = "Start quiz mode.")
+    public String quiz(String name) {
+        return "Final score: " + flow.quizModeFlow(name);
     }
 }

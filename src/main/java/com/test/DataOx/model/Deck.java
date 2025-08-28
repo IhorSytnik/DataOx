@@ -1,2 +1,32 @@
-package com.test.DataOx.model;public class Deck {
+package com.test.DataOx.model;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+public class Deck {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @OneToMany(mappedBy = "deck", fetch = FetchType.EAGER)
+    private List<Card> cards;
+
+    public Deck(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
