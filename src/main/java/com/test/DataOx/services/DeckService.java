@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class DeckService {
@@ -21,7 +22,7 @@ public class DeckService {
     }
 
     public void edit(String name, String newName) {
-        Deck deck = deckJpaRepository.findByName(name);
+        Deck deck = findByName(name);
         deck.setName(newName);
         deckJpaRepository.save(deck);
     }
@@ -31,9 +32,9 @@ public class DeckService {
     }
 
     public Deck findByName(String name) {
-        Deck deck = deckJpaRepository.findByName(name);
-        if (deck == null)
+        Optional<Deck> deck = deckJpaRepository.findByName(name);
+        if (deck.isEmpty())
             throw new NoSuchElementException("There is no deck with name \"" + name + "\"");
-        return deck;
+        return deck.get();
     }
 }
