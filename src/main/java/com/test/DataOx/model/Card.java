@@ -1,6 +1,7 @@
 package com.test.DataOx.model;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,12 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Card {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @EqualsAndHashCode.Exclude
     private Long id;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude
     private Deck deck;
 
     private String question;

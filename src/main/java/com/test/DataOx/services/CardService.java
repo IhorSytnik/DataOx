@@ -2,6 +2,7 @@ package com.test.DataOx.services;
 
 import com.test.DataOx.model.Card;
 import com.test.DataOx.repositories.CardJpaRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CardService {
     @Autowired
     private CardJpaRepository cardJpaRepository;

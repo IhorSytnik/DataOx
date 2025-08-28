@@ -24,6 +24,14 @@ public class Flow extends AbstractShellComponent {
     @Autowired
     private ComponentFlow.Builder componentFlowBuilder;
 
+    /**
+     * Opens the Quiz flow.
+     * Iterates over all the cards in the deck asking the specified questions and comparing the answers.
+     * At the end of the quiz provides the final score.
+     *
+     * @param deckName name of the deck for the quiz.
+     * @return score.
+     */
     public Integer quizModeFlow(String deckName) {
         Iterable<Card> cards = cardController.list(deckName);
         Iterator<Card> iterator = cards.iterator();
@@ -63,6 +71,20 @@ public class Flow extends AbstractShellComponent {
         return score.get();
     }
 
+    /**
+     * Opens the Card Management flow for a specific deck.
+     * Possible options:
+     * <ul>
+     * <li>`create`: provide question and answer for a new card in the deck;
+     * <li> `list`: list all cards in the deck;
+     * <li> `edit`: provide new question and answer for a card in the deck;
+     * <li> `delete`: choose a card to delete;
+     * <li> `cancel`: exit this flow.
+     * </ul>
+     *
+     * @param deckName name of the deck to manage the cards of.
+     * @return object whose ToString method result will be used in the output.
+     */
     public Object cardManagementFlow(String deckName) {
         AtomicReference<Object> toReturn = new AtomicReference<>(new Object());
         List<SelectItem> menuItems = Arrays.asList(
@@ -136,6 +158,12 @@ public class Flow extends AbstractShellComponent {
         return toReturn;
     }
 
+    /**
+     * Builds {@link SelectItem} list for SingleItemSelector of all cards of the given deck.
+     *
+     * @param deckName deck name for the list of cards.
+     * @return {@link SelectItem} list for SingleItemSelector of all cards of the given deck.
+     */
     private List<SelectItem> getCardListAsItems(String deckName) {
         return StreamSupport.stream(cardController.list(deckName).spliterator(), false)
             .map(card -> SelectItem.of(card.toString(), String.valueOf(card.getId())))
